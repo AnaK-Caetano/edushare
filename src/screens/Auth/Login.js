@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     fontSize: 48,
     fontFamily: 'Poppins-Black',
     color: "#535272",
-    marginTop: 85, 
+    marginTop: 100, 
     marginBottom: 42, 
   }, 
   subTitle: {

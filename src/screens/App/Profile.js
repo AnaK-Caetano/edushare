@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  FlatList,
-  StyleSheet,
-  Image,
-  Button,
-  Platform,
-} from "react-native";
+import {View, Text,TouchableOpacity, FlatList, StyleSheet, Image, Button, Platform} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import * as ImagePicker from 'expo-image-picker';
 import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
@@ -91,8 +83,6 @@ export default function Listfirestore() {
   return (
     <View style={styles.container}>
       <View style={styles.profileContainer}>
-        
-
         <Image source={downloadUrl ? { uri: downloadUrl } : null} style={styles.image} />
         <FlatList
           style={{ height: "100%" }}
@@ -109,6 +99,9 @@ export default function Listfirestore() {
         <Button title="Escolher Imagem" onPress={pickImage} />
         <Button title="Fazer Upload" onPress={uploadImage} disabled={uploading} />
       </View>
+      <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+          <Text style={styles.buttonTextLink}>Sair</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -152,5 +145,11 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     marginBottom: 20,
     backgroundColor: '#ccc',
+  },
+  buttonTextLink: {
+    fontWeight: 'bold',
+    color: '#535272',
+    marginTop: 10,
+    fontFamily: 'Poppins-Light',
   },
 });

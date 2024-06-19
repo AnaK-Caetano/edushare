@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, Button } from 'react-native';
+
 import CustomButton from '../../components/Button/CustomButton';
+
 import { collection, addDoc } from "firebase/firestore";
 import { database, storage } from "../../firebaseconfig/firebaseConfig"; // assuming you have storage from firebaseConfig
 
