@@ -25,7 +25,6 @@ export default function Listfirestore() {
               const imageRef = ref(storage, project.imagePath);
               // Obtém a URL de download da imagem
               const imageUrl = await getDownloadURL(imageRef);
-              // Adiciona a URL da imagem ao objeto do projeto
               project.imageUrl = imageUrl;
             } catch (error) {
               console.error('Erro ao obter URL da imagem:', error);
