@@ -88,7 +88,7 @@ export default function Listfirestore() {
 
     return unsubscribe;
   }, []);
-  
+
   if (!fontsLoaded) {
     return null;
   }
@@ -116,18 +116,18 @@ export default function Listfirestore() {
               <Button 
               title="Escolher Imagem" 
               onPress={pickImage}
-              buttonStyle={styles.buttonVoltar}
-              textStyle={styles.textVoltar} />
+              buttonStyle={styles.buttonEscolherImagem}
+              textStyle={styles.textEscolherImagem} />
 
               <Button 
               title="Fazer Upload" 
               onPress={uploadImage} 
               disabled={uploading} 
-              buttonStyle={styles.buttonLogin}/>
+              buttonStyle={styles.buttonUpload}/>
           </View>
         </View>
         <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-          <Text style={styles.buttonTextLink}>Sair</Text>
+          <Text style={styles.buttonLogout}>Sair</Text>
         </TouchableOpacity>
       </View>
     </ImageBackground>
@@ -187,7 +187,19 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     padding: 10,
   }, 
-  buttonTextLink: {
+  buttonEscolherImagem: {
+    marginHorizontal: 10,
+    backgroundColor: "#535272",
+  },
+  textEscolherImagem: {
+    color: '#F2F0F0',
+    fontFamily: 'Poppins-Light',
+    fontSize: 16,
+  },
+  buttonUpload: {
+    marginHorizontal: 10,
+  },
+  buttonLogout: {
     fontWeight: 'bold',
     color: '#535272',
     marginTop: 10,
