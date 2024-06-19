@@ -102,6 +102,7 @@ const Projects = ({ navigation }) => {
             title="Voltar"
             onPress={() => navigation.navigate('Home')}
             buttonStyle={styles.buttonVoltar}
+            textStyle={styles.textVoltar}
           />
           <CustomButton
             title="Finalizar"
@@ -165,15 +166,20 @@ const styles = StyleSheet.create({
   },
   buttonWrapper: {
     flexDirection: "row",
-    marginTop: 10,
+    padding: 10,
   },
   buttonLogin: {
     marginHorizontal: 10,
   },
   buttonVoltar: {
     marginHorizontal: 10,
-
-  }
+    backgroundColor: "#535272",
+  },
+  textVoltar: {
+    color: '#F2F0F0',
+    fontFamily: 'Poppins-Light',
+    fontSize: 16,
+  },
 });
 
 export default Projects;

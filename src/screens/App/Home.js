@@ -72,8 +72,9 @@ export default function Listfirestore() {
                 <Text style={styles.textHeader}>{item.nomeProjeto}</Text>
                 <Text style={styles.textDesc}>{item.descricao}</Text>
                 <TouchableOpacity onPress={() => Linking.openURL(item.linkGit)}>
-                    <Text style={styles.textHeader}>{item.linkGit}</Text>
+                    <Text style={styles.textLink}>{item.linkGit}</Text>
                 </TouchableOpacity>
+                <Text style={styles.textCardSection}>Tecnologias utilizadas</Text>
                 <Text style={styles.about}>{item.tecnologiasUsadas}</Text>
                 {/* Renderiza a imagem se a URL estiver definida */}
                 {item.imageUrl && (
@@ -139,8 +140,9 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   textHeader: {
-    fontFamily: 'Poppins-SemiBold', // Utilizei a fonte correta para consistência
-    fontSize: 16,
+    fontFamily: 'Poppins-SemiBold', 
+    color: "#535272",
+    fontSize: 22,
     marginBottom: 5,
   },
   textDesc: {
@@ -148,11 +150,17 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginBottom: 5,
   },
-  link: {
+  textCardSection: {
+    fontFamily: 'Poppins-SemiBold', 
+    color: "#535272",
+    fontSize: 16,
+  },
+  textLink: {
     fontFamily: 'Poppins-Light', // Utilizei a fonte correta para consistência
-    fontSize: 14,
+    fontSize: 12,
     color: 'blue',
     textDecorationLine: 'underline',
+    marginTop: 5,
     marginBottom: 5,
   },
   about: {
