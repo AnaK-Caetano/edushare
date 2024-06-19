@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import {View, Text,TouchableOpacity, FlatList, StyleSheet, Image, Button, Platform} from "react-native";
+import { View, Text, TouchableOpacity, FlatList, StyleSheet, Image, Button, Platform, ImageBackground, Dimensions } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import * as ImagePicker from 'expo-image-picker';
 import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { database } from "../../firebaseconfig/firebaseConfig";
+import { useFonts } from 'expo-font'; // Importação do hook useFonts
 
 export default function Listfirestore() {
   const navigation = useNavigation();
@@ -12,6 +13,14 @@ export default function Listfirestore() {
   const [imageUri, setImageUri] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [downloadUrl, setDownloadUrl] = useState(null);
+
+  // Carregamento de Fontes
+  const [fontsLoaded] = useFonts({
+    'Poppins-Black': require('../../../assets/fonts/Poppins-Black.ttf'),
+    'Poppins-Bold': require('../../../assets/fonts/Poppins-Bold.ttf'),
+    'Poppins-SemiBold': require('../../../assets/fonts/Poppins-SemiBold.ttf'),
+    'Poppins-Light': require('../../../assets/fonts/Poppins-Light.ttf'),
+  });
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -79,36 +88,64 @@ export default function Listfirestore() {
 
     return unsubscribe;
   }, []);
+  
+  if (!fontsLoaded) {
+    return null;
+  }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.profileContainer}>
-        <Image source={downloadUrl ? { uri: downloadUrl } : null} style={styles.image} />
-        <FlatList
-          style={{ height: "100%" }}
-          data={user}
-          numColumns={1}
-          renderItem={({ item }) => (
-            <View style={styles.innerContainer}>
-              <Text style={styles.textHeader}>{item.fullName}</Text>
-              <Text style={styles.about}>{item.userId}</Text>
-            </View>
-          )}
-          keyExtractor={(item) => item.id}
-        />
-        <Button title="Escolher Imagem" onPress={pickImage} />
-        <Button title="Fazer Upload" onPress={uploadImage} disabled={uploading} />
-      </View>
-      <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+    <ImageBackground
+      source={require('../../../assets/home_background_image.png')}
+      style={styles.background}
+    >
+      <View style={styles.container}>
+        <View style={styles.profileContainer}>
+          <Image source={downloadUrl ? { uri: downloadUrl } : null} style={styles.image} />
+          <FlatList
+            style={{ height: "100%" }}
+            data={user}
+            numColumns={1}
+            renderItem={({ item }) => (
+              <View style={styles.innerContainer}>
+                <Text style={styles.textHeader}>{item.fullName}</Text>
+              </View>
+            )}
+            keyExtractor={(item) => item.id}
+          />
+          <View style={styles.buttonRow}>
+              <Button 
+              title="Escolher Imagem" 
+              onPress={pickImage}
+              buttonStyle={styles.buttonVoltar}
+              textStyle={styles.textVoltar} />
+
+              <Button 
+              title="Fazer Upload" 
+              onPress={uploadImage} 
+              disabled={uploading} 
+              buttonStyle={styles.buttonLogin}/>
+          </View>
+        </View>
+        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
           <Text style={styles.buttonTextLink}>Sair</Text>
-      </TouchableOpacity>
-    </View>
+        </TouchableOpacity>
+      </View>
+    </ImageBackground>
   );
 }
 
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+
 const styles = StyleSheet.create({
+  background: {
+    flex: 1, 
+    width: windowWidth,
+    height: windowHeight,
+    resizeMode: "cover", 
+    alignItems: 'center',
+  },
   container: {
-    backgroundColor: "#dfedfa",
     padding: 10,
     flex: 1,
   },
@@ -146,6 +183,10 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     backgroundColor: '#ccc',
   },
+  buttonRow:{
+    flexDirection: "row",
+    padding: 10,
+  }, 
   buttonTextLink: {
     fontWeight: 'bold',
     color: '#535272',

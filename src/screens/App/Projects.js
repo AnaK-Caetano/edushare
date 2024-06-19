@@ -5,7 +5,7 @@ import CustomButton from '../../components/Button/CustomButton';
 import { useFonts } from 'expo-font';
 
 import { collection, addDoc } from "firebase/firestore";
-import { database, storage } from "../../firebaseconfig/firebaseConfig"; // assuming you have storage from firebaseConfig
+import { database, storage } from "../../firebaseconfig/firebaseConfig";
 
 const Projects = ({ navigation }) => {
   const [fontsLoaded] = useFonts({
