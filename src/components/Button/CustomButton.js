@@ -20,16 +20,16 @@ const CustomButton = ({ onPress, title }) => {
 
 const styles = StyleSheet.create({
   CustomButton: {
-    width: 144, 
+    width: 140, 
     height: 46,
     backgroundColor: '#FCAC75',
     padding: 10,
-    borderRadius: 17,
+    borderRadius: 12,
     alignItems: 'center',
     justifyContent: 'center',
   },
   text: {
-    fontSize: 27,
+    fontSize: 22,
     fontFamily: 'Poppins-SemiBold',
     color: "#535272"
   },

@@ -1,15 +1,13 @@
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, Button } from 'react-native';
-import { useFonts } from 'expo-font';
-import CustomButton from '../../components/Button/CustomButton';
-import Input from '../../components/Input/Input';
 import React, { useState } from "react";
-import { useNavigation } from "@react-navigation/native";
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, ImageBackground, Dimensions} from 'react-native';
+
+import CustomButton from '../../components/Button/CustomButton';
+import { useFonts } from 'expo-font';
+
+import { auth } from '../../firebaseconfig/firebaseConfig';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { collection, addDoc } from "firebase/firestore";
 import { database } from "../../firebaseconfig/firebaseConfig";
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../../firebaseconfig/firebaseConfig';
-
-
 
 const Register = ({ navigation }) => {
   const [fontsLoaded] = useFonts({
@@ -18,9 +16,7 @@ const Register = ({ navigation }) => {
   });
 
   const [email, setEmail] = useState('');
-
   const [password, setPassword] = useState('');
-
   const [newItem, setNewItem] = useState({
     userName: "",
     fullName: "",
@@ -37,11 +33,9 @@ const Register = ({ navigation }) => {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const userId = userCredential.user.uid;
 
-      
       const updatedItem = { ...newItem, userId, email, password };
       setNewItem(updatedItem);
       
-    
       await addDoc(collection(database, "user"), updatedItem);
       
       navigation.navigate('Login');
@@ -56,104 +50,125 @@ const Register = ({ navigation }) => {
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Cadastre-se</Text>
+    <ImageBackground
+      source={require('../../../assets/cadastro_background_image.png')} 
+      style={styles.background}
+      resizeMode="cover"
+    >
+      <View style={styles.container}>
+        <Text style={styles.title}>Cadastre-se</Text>
 
-      <TextInput
-        multiline={false}
-        onChangeText={text=>setEmail(text)}
-        placeholder="Name"
-        style={styles.textInput}
-      ></TextInput>
-      <TextInput
-        multiline={false}
-        onChangeText={text => setPassword(text)}
-        placeholder="Name"
-        style={styles.textInput}
-      ></TextInput>
-       <TextInput
-        multiline={false}
-        onChangeText={(text) => setNewItem({ ...newItem, userName: text })}
-        placeholder="Name"
-        style={styles.textInput}
-      ></TextInput>
-      <TextInput
-        multiline={false}
-        onChangeText={(text) => setNewItem({ ...newItem, fullName: text })}
-        placeholder="Name"
-        style={styles.textInput}
-      ></TextInput>
+        <View style={styles.inputWrapper}>
+          <Text style={styles.labelText}>Nome de usuário (a)</Text>
+          <TextInput
+            placeholder="Ex. Samuel Cesar"
+            multiline={false}
+            onChangeText={(text) => setNewItem({ ...newItem, userName: text })}
+            style={styles.input}
+          ></TextInput>
+        </View>
+
+        <View style={styles.inputWrapper}>
+          <Text style={styles.labelText}>Nome Completo</Text>
+          <TextInput
+            multiline={false}
+            onChangeText={(text) => setNewItem({ ...newItem, fullName: text })}
+            placeholder="Ex. Samuel Cesar de Oliveira"
+            style={styles.input}
+          ></TextInput>
+        </View>
+
+        <View style={styles.inputWrapper}>
+          <Text style={styles.labelText}>E-mail institucional</Text>
+          <TextInput
+            placeholder="Ex. sco@etepd.com"
+            style={styles.input}
+            multiline={false}
+            onChangeText={text=>setEmail(text)}
+          ></TextInput>
+        </View>
+
+
+        <View style={styles.inputWrapper}>
+          <Text style={styles.labelText}>Senha</Text>
+          <TextInput
+            multiline={false}
+            onChangeText={text => setPassword(text)}    
+            accessibilityLabel={`Campo de Senha`}
+            secureTextEntry = {true}
+            placeholder="**************"
+            style={styles.input}
+          ></TextInput>
+        </View>
+
+        <CustomButton
+          title="Finalizar"
+          onPress={onSubmit}
+          buttonStyle={styles.buttonLogin}
+        />
+        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+          <Text style={styles.buttonTextContainer}>
+            Já tem uma conta?{' '}
+            <Text style={styles.buttonTextLink}>Faça seu login</Text>
+          </Text>
+        </TouchableOpacity>
+        </View>
+    </ImageBackground>
     
-      <Text style={[styles.text, { textAlign: 'left' }]}>Nome de usuário (a)</Text>
-      <Input
-        multiline={false}
-        onChangeText={(text) => setNewItem({ ...newItem, userName: text })}
-
-        style={styles.textInput}
-        placeholder="Ex. Samuel Cesar"
-      ></Input>
-
-      <Text style={[styles.text, { textAlign: 'left' }]}>Nome Completo</Text>
-      <Input
-        multiline={false}
-        onChangeText={(text) => setNewItem({ ...newItem, fullName: text })}
-        style={styles.textInput}
-        placeholder="Ex. Samuel Cesar de Oliveira"
-      ></Input>
-
-      <Text style={[styles.text, { textAlign: 'left' }]}>E-mail institucional</Text>
-      <Input
-        multiline={false}
-        onChangeText={(text) => setNewItem({ ...newItem, email: text })}
-        style={styles.textInput}
-        placeholder="Ex. sco@etepd.com"
-      ></Input>
-
-      <Text style={[styles.text, { textAlign: 'left' }]}>Senha</Text>
-      <Input
-        multiline={false}
-        onChangeText={(text) => setNewItem({ ...newItem, password: text })}
-        style={styles.textInput}
-        placeholder="**************"
-      ></Input>
-
-      <CustomButton
-        title="Finalizar"
-        onPress={onSubmit}
-        buttonStyle={styles.buttonLogin}
-      />
-      <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-        <Text style={styles.buttonTextContainer}>
-          Já tem uma conta?{' '}
-          <Text style={styles.buttonTextLink}>Faça seu login</Text>
-        </Text>
-      </TouchableOpacity>
-    </View>
   );
 };
 
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+
 const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+    width: windowWidth,
+    height: windowHeight,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    // paddingHorizontal: 6,
   },
   title: {
+    justifyContent: 'center',
     fontSize: 30,
     fontFamily: 'Poppins-Bold',
     color: "#535272",
-    marginBottom: 50,
+    marginTop: 85,
+    marginBottom: 30,
   },
-  text: {
+  inputWrapper: {
+    width: '100%',
+    // marginBottom: 3, // Espaçamento entre inputs
+  },
+  labelText: {
     fontSize: 14,
     fontFamily: 'Poppins-Bold',
     color: "#535272",
+    marginBottom: 4, // Espaçamento entre label e input
   },
-
+  input: {
+    width: '100%',
+    height: 40,
+    borderRadius: 6,
+    paddingHorizontal: 10,
+    fontFamily: 'Poppins-Light', 
+    backgroundColor: '#ECF3F1',
+    placeholderTextColor: '#565656',
+    borderWidth: 1,
+    borderColor: '#CED4DA',
+    marginBottom: 15,
+  },
   buttonLogin: {
     width: 100,
     height: 46,
-    fontSize: 15,
+    fontSize: 8,
     marginTop: 20,
     marginBottom: 20,
   },
