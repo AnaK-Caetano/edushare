@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, FlatList, StyleSheet, Image, ImageBackground, Dimensions } from "react-native";
+import { View, Text, FlatList, StyleSheet, Image, ImageBackground, Dimensions, TouchableOpacity, Linking } from "react-native";
 
 import { useFonts } from 'expo-font';
 
@@ -64,14 +64,16 @@ export default function Listfirestore() {
         </View>
         
         <View style={styles.contentContainer}>
-          <Text style={styles.textSubTitle}>Projetos</Text>
+          <Text style={styles.textSubTitle}>Projetos Compartilhados</Text>
           <FlatList
             data={projects}
             renderItem={({ item }) => (
               <View style={styles.projectContainer}>
                 <Text style={styles.textHeader}>{item.nomeProjeto}</Text>
-                <Text style={styles.textHeader}>{item.descricao}</Text>
-                <Text style={styles.textHeader}>{item.linkGit}</Text>
+                <Text style={styles.textDesc}>{item.descricao}</Text>
+                <TouchableOpacity onPress={() => Linking.openURL(item.linkGit)}>
+                    <Text style={styles.textHeader}>{item.linkGit}</Text>
+                </TouchableOpacity>
                 <Text style={styles.about}>{item.tecnologiasUsadas}</Text>
                 {/* Renderiza a imagem se a URL estiver definida */}
                 {item.imageUrl && (
@@ -101,7 +103,7 @@ const styles = StyleSheet.create({
     resizeMode: "cover", 
   },
   container: {
-    padding: 2,
+    paddingVertical: 24,
     flex: 1,
   },
   headerContainer: {
@@ -120,12 +122,13 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-SemiBold',
     color: "#535272",
     marginTop: 20,
+    marginBottom: 30,
     fontWeight: "bold",
-    fontSize: 20,
+    fontSize: 18,
   },
   contentContainer: {
     flex: 1,
-    marginHorizontal: 24, // Adiciona a margem lateral de 24px
+    paddingHorizontal: 24, // Adiciona a margem lateral de 24px
   },
   projectContainer: {
     width: '100%',
@@ -136,9 +139,25 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   textHeader: {
-    fontWeight: "bold",
+    fontFamily: 'Poppins-SemiBold', // Utilizei a fonte correta para consistência
     fontSize: 16,
     marginBottom: 5,
+  },
+  textDesc: {
+    fontFamily: 'Poppins-Light', // Utilizei a fonte correta para consistência
+    fontSize: 14,
+    marginBottom: 5,
+  },
+  link: {
+    fontFamily: 'Poppins-Light', // Utilizei a fonte correta para consistência
+    fontSize: 14,
+    color: 'blue',
+    textDecorationLine: 'underline',
+    marginBottom: 5,
+  },
+  about: {
+    fontFamily: 'Poppins-Light', // Utilizei a fonte correta para consistência
+    fontSize: 14,
   },
   about: {
     fontWeight: "300",

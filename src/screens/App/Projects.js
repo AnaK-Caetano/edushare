@@ -1,12 +1,20 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, Button } from 'react-native';
+import { View, Text, StyleSheet, TextInput, ImageBackground, Dimensions} from 'react-native';
 
 import CustomButton from '../../components/Button/CustomButton';
+import { useFonts } from 'expo-font';
 
 import { collection, addDoc } from "firebase/firestore";
 import { database, storage } from "../../firebaseconfig/firebaseConfig"; // assuming you have storage from firebaseConfig
 
 const Projects = ({ navigation }) => {
+  const [fontsLoaded] = useFonts({
+    'Poppins-Black': require('../../../assets/fonts/Poppins-Black.ttf'),
+    'Poppins-Bold': require('../../../assets/fonts/Poppins-Bold.ttf'),
+    'Poppins-SemiBold': require('../../../assets/fonts/Poppins-SemiBold.ttf'),
+    'Poppins-Light': require('../../../assets/fonts/Poppins-Light.ttf'),
+  });
+
   const [newItem, setNewItem] = useState({
     nomeProjeto: "",
     descricao: "",
@@ -40,97 +48,132 @@ const Projects = ({ navigation }) => {
     }
   };
 
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Cadastrar projeto</Text>
-      <View style={styles.box}>
-        <Text style={styles.text}>Nome do Projeto</Text>
-        <TextInput
-          multiline={false}
-          onChangeText={(text) => setNewItem({ ...newItem, nomeProjeto: text })}
-          placeholder="Nome do Projeto"
-          style={styles.textInput}
-        />
-        <Text style={styles.text}>Descrição</Text>
-        <TextInput
-          multiline={true}
-          onChangeText={(text) => setNewItem({ ...newItem, descricao: text })}
-          placeholder="Descrição"
-          style={styles.textInput}
-        />
-        <Text style={styles.text}>Link para Github</Text>
-        <TextInput
-          multiline={false}
-          onChangeText={(text) => setNewItem({ ...newItem, linkGit: text })}
-          placeholder="Link para Github"
-          style={styles.textInput}
-        />
-        <Text style={styles.text}>Técnologias Utilizadas</Text>
-        <TextInput
-          multiline={false}
-          onChangeText={(text) => setNewItem({ ...newItem, tecnologiasUsadas: text })}
-          placeholder="Técnologias Utilizadas"
-          style={styles.textInput}
-        />
-        <Text style={styles.text}>Imagem do Projeto</Text>
-        <Button
-          title="Selecionar Imagem"
-          onPress={() => alert('Implemente a funcionalidade de seleção de imagem aqui')}
-        />
+    <ImageBackground
+      source={require('../../../assets/home_background_image.png')}
+      style={styles.background}
+    >
+
+      <View style={styles.container}>
+        <View style={styles.headerContainer}>
+          <Text style={styles.textTitle}>Cadastrar projeto</Text>
+        </View>
+        <View style={styles.contentContainer}>
+          <Text style={styles.labelText}>Nome do Projeto</Text>
+          <TextInput
+            multiline={false}
+            onChangeText={(text) => setNewItem({ ...newItem, nomeProjeto: text })}
+            placeholder="Nome do Projeto"
+            style={styles.textInput}
+          />
+          <Text style={styles.labelText}>Descrição</Text>
+          <TextInput
+            multiline={true}
+            onChangeText={(text) => setNewItem({ ...newItem, descricao: text })}
+            placeholder="Descrição"
+            style={styles.textInput}
+          />
+          <Text style={styles.labelText}>Link para Github</Text>
+          <TextInput
+            multiline={false}
+            onChangeText={(text) => setNewItem({ ...newItem, linkGit: text })}
+            placeholder="Link para Github"
+            style={styles.textInput}
+          />
+          <Text style={styles.labelText}>Tecnologias Utilizadas</Text>
+          <TextInput
+            multiline={false}
+            onChangeText={(text) => setNewItem({ ...newItem, tecnologiasUsadas: text })}
+            placeholder="Tecnologias Utilizadas"
+            style={styles.textInput}
+          />
+          {/* <Text style={styles.labelText}>Imagem do Projeto</Text>
+          <Button
+            title="Selecionar Imagem"
+            onPress={() => alert('Implemente a funcionalidade de seleção de imagem aqui')}
+          /> */}
+        </View>
+        <View style={styles.buttonWrapper}>
+          <CustomButton
+            title="Voltar"
+            onPress={() => navigation.navigate('Home')}
+            buttonStyle={styles.buttonVoltar}
+          />
+          <CustomButton
+            title="Finalizar"
+            onPress={onSubmit}
+            buttonStyle={styles.buttonLogin}
+          />
+        </View>
       </View>
-      <View style={styles.btn}>
-        <CustomButton
-          title="Voltar"
-          onPress={() => navigation.navigate('Home')}
-          buttonStyle={styles.buttonLogin}
-        />
-        <CustomButton
-          title="Finalizar"
-          onPress={onSubmit}
-          buttonStyle={styles.buttonLogin}
-        />
-      </View>
-    </View>
+    </ImageBackground>
   );
 };
 
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+
 const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+    width: windowWidth,
+    height: windowHeight,
+    resizeMode: "cover", 
+    alignItems: 'center',
+  },
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 20,
+    paddingVertical: 24,
   },
-  title: {
+  headerContainer: {
+    marginTop: 55,
+  },
+  textTitle: {
+    alignSelf: 'center',
+    fontFamily: 'Poppins-Bold',
+    color: "#535272",
+    marginTop: 35,
+    marginBottom: 15,
     fontSize: 30,
+  },
+  contentContainer: {
+    flex: 1,
+    paddingHorizontal: 1,
+    justifyContent: 'center',
+  },
+  labelText: {
+    fontSize: 14,
     fontFamily: 'Poppins-Bold',
     color: "#535272",
-    marginBottom: 20,
-  },
-  text: {
-    fontSize: 15,
-    fontFamily: 'Poppins-Bold',
-    color: "#535272",
-    marginBottom: 5,
-  },
-  box: {
-    width: '100%',
+    marginBottom: 4, // Espaçamento entre label e input
   },
   textInput: {
+    width: '100%',
+    height: 40,
+    borderRadius: 6,
+    paddingHorizontal: 10,
+    fontFamily: 'Poppins-Light', 
+    backgroundColor: '#ECF3F1',
+    placeholderTextColor: '#565656',
     borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 10,
-    fontSize: 16,
+    borderColor: '#CED4DA',
+    marginBottom: 15,
   },
-  btn: {
+  buttonWrapper: {
     flexDirection: "row",
-    marginTop: 20,
+    marginTop: 10,
   },
   buttonLogin: {
     marginHorizontal: 10,
   },
+  buttonVoltar: {
+    marginHorizontal: 10,
+
+  }
 });
 
 export default Projects;
