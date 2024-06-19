@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, FlatList, StyleSheet, Image, Button, Platform, ImageBackground, Dimensions } from "react-native";
+import { View, Text, TouchableOpacity, FlatList, StyleSheet, Image, Platform, ImageBackground, Dimensions } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import * as ImagePicker from 'expo-image-picker';
 import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { database } from "../../firebaseconfig/firebaseConfig";
+
 import { useFonts } from 'expo-font'; // Importação do hook useFonts
+import CustomButton from '../../components/Button/CustomButton';
 
 export default function Listfirestore() {
   const navigation = useNavigation();
@@ -113,14 +115,14 @@ export default function Listfirestore() {
             keyExtractor={(item) => item.id}
           />
           <View style={styles.buttonRow}>
-              <Button 
+              <CustomButton 
               title="Escolher Imagem" 
               onPress={pickImage}
               buttonStyle={styles.buttonEscolherImagem}
               textStyle={styles.textEscolherImagem} />
 
-              <Button 
-              title="Fazer Upload" 
+              <CustomButton 
+              title="Upload" 
               onPress={uploadImage} 
               disabled={uploading} 
               buttonStyle={styles.buttonUpload}/>
@@ -203,6 +205,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#535272',
     marginTop: 10,
+    padding: 30,
     fontFamily: 'Poppins-Light',
   },
 });
