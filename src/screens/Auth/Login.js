@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     marginBottom: 20, 
   },
   contentContainer: {
-    width: 300,  
+    width: 350,  
     paddingHorizontal: 24,
   },
   input: {

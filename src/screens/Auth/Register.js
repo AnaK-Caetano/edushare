@@ -57,8 +57,7 @@ const Register = ({ navigation }) => {
     >
       <View style={styles.container}>
         <Text style={styles.title}>Cadastre-se</Text>
-
-        <View style={styles.inputWrapper}>
+        <View style={styles.contentContainer}>
           <Text style={styles.labelText}>Nome de usuário (a)</Text>
           <TextInput
             placeholder="Ex. Samuel Cesar"
@@ -66,9 +65,7 @@ const Register = ({ navigation }) => {
             onChangeText={(text) => setNewItem({ ...newItem, userName: text })}
             style={styles.input}
           ></TextInput>
-        </View>
 
-        <View style={styles.inputWrapper}>
           <Text style={styles.labelText}>Nome Completo</Text>
           <TextInput
             multiline={false}
@@ -76,9 +73,7 @@ const Register = ({ navigation }) => {
             placeholder="Ex. Samuel Cesar de Oliveira"
             style={styles.input}
           ></TextInput>
-        </View>
 
-        <View style={styles.inputWrapper}>
           <Text style={styles.labelText}>E-mail institucional</Text>
           <TextInput
             placeholder="Ex. sco@etepd.com"
@@ -86,10 +81,7 @@ const Register = ({ navigation }) => {
             multiline={false}
             onChangeText={text=>setEmail(text)}
           ></TextInput>
-        </View>
 
-
-        <View style={styles.inputWrapper}>
           <Text style={styles.labelText}>Senha</Text>
           <TextInput
             multiline={false}
@@ -99,6 +91,7 @@ const Register = ({ navigation }) => {
             placeholder="**************"
             style={styles.input}
           ></TextInput>
+
         </View>
 
         <CustomButton
@@ -143,9 +136,9 @@ const styles = StyleSheet.create({
     marginTop: 85,
     marginBottom: 30,
   },
-  inputWrapper: {
-    width: '100%',
-    // marginBottom: 3, // Espaçamento entre inputs
+  contentContainer: {
+    width: 350,  
+    paddingHorizontal: 24,
   },
   labelText: {
     fontSize: 14,
@@ -166,7 +159,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   buttonLogin: {
-    width: 100,
+    width: 140,
     height: 46,
     fontSize: 8,
     marginTop: 20,
