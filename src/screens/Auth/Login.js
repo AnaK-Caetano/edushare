@@ -36,36 +36,38 @@ const Login = ({ navigation }) => {
       resizeMode="cover"
     >
       <View style={styles.container}>
-      <Text style={styles.title}>Edushare</Text>
-      <Text style={styles.subTitle}>Seja Bem-Vindo (a)</Text>
-      <TextInput
-        placeholder="Digite o E-mail institucional"
-        style={styles.input}
-        value={email}
-        accessibilityLabel={`Campo de E-mail`}
-        onChangeText={value => setEmail(value)}
-        />
-      <TextInput
-        placeholder="Sua senha"
-        style={styles.input}
-        value={password}
-        accessibilityLabel={`Campo de Senha`}
-        secureTextEntry = {true}
-        onChangeText={value => setPassword(value)}
-      />
-      
-      <CustomButton
-        title="Entrar"
-        onPress={() => loginUser()}
-        buttonStyle={styles.buttonLogin}
-      />
-      <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-        <Text style={styles.buttonTextContainer}>
-          Não tem cadastro?{' '}
-          <Text style={styles.buttonTextLink}>Cadastre-se</Text>
-        </Text>
-      </TouchableOpacity>
-    </View>
+          <Text style={styles.title}>Edushare</Text>
+          <Text style={styles.subTitle}>Seja Bem-Vindo (a)</Text>
+          <View style={styles.contentContainer}>
+            <TextInput
+              placeholder="E-mail institucional"
+              style={styles.input}
+              value={email}
+              accessibilityLabel={`Campo de E-mail`}
+              onChangeText={value => setEmail(value)}
+              />
+            <TextInput
+              placeholder="Sua senha"
+              style={styles.input}
+              value={password}
+              accessibilityLabel={`Campo de Senha`}
+              secureTextEntry = {true}
+              onChangeText={value => setPassword(value)}
+            />
+          </View>
+          
+          <CustomButton
+            title="Entrar"
+            onPress={() => loginUser()}
+            buttonStyle={styles.buttonLogin}
+          />
+          <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+            <Text style={styles.buttonTextContainer}>
+              Não tem cadastro?{' '}
+              <Text style={styles.buttonTextLink}>Cadastre-se</Text>
+            </Text>
+          </TouchableOpacity>
+      </View>
   </ImageBackground>
     
   );
@@ -95,10 +97,14 @@ const styles = StyleSheet.create({
     marginBottom: 42, 
   }, 
   subTitle: {
-    fontSize: 20,
+    fontSize: 22,
     fontFamily: 'Poppins-SemiBold',
     color: "#535272",
     marginBottom: 20, 
+  },
+  contentContainer: {
+    width: 300,  
+    paddingHorizontal: 24,
   },
   input: {
     width: '100%',
